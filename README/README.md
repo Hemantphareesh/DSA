@@ -41,23 +41,62 @@ Python3 <file>.py
    2. Data Compression / Optimization: Leaders can represent a minimal subset of data that still carries the "dominance" property. Instead of storing all numbers, we keep only the leaders (reducing memory in certain analytics pipelines).
    3. Useful for forecasting, optimization, trend analysis, and decision-making.
 
-3. Sort 0s, 1s and 2s: 
-    Given an array arr[] containing only 0s, 1s, and 2s. Sort the array in ascending order.
-    Note: You need to solve this problem without utilizing the built-in sort function.
+3. Contains Duplicate: Given an integer array nums, return true if any value appears at least twice in the array, 
+   and return false if every element is distinct.
+   Input: nums = [1,2,3,1]
 
-    Examples:
-    Input: arr[] = [0, 1, 2, 0, 1, 2]
-    Output: [0, 0, 1, 1, 2, 2]
-    Explanation: 0s, 1s and 2s are segregated into ascending order.
+   Python: 
+   Approach 1:
+   we require 2 loops one for iteration and other for scanning all the elements to right of it.
+   first for loop i in range(0, len(nums)) and second loop to iterate through right side to check j in range(i+1, len(nums))
+   this approch failed because compleixity is very high so need to find optimal problem solution. since approch one give O(n^2) Complexity.
 
-    Input: arr[] = [0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1]
-    Output: [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2]
-    Explanation: 0s, 1s and 2s are segregated into ascending order.
+   Approach 2: 
+   before finding duplicates we need to sort the element, now sorting we use inbuild  .sort() and compare nearby values and if same then duplicate is there.
+   thia approch is very good if inbuild libraries are supported but our problem is in no interviews or no places we can  use libraries so we need to build from scratch.
 
-    Follow up: Could you come up with a one-pass algorithm using only constant extra space?
+   Approach 3:
+   Lets do a hybrid approach for this, combination of both InsertionSort and HeapSort 
+   if array size is < 50 we will use InsertionSort which is O(n^2)
+   for rest use HeapSort which is O(n log n). best for large arrays with memory constraints.
 
-    ***Approach:***
-    Approach 1: Brute Force
-    given an array sort the array with out use of inbuild functions.
-    In python lets create a dictionary hash map method to sort each with 0, 1 and 2. then start priting from greater to lower values.
-    second way is use Counting Method for loop to iterate though each, and keep track of it in 3 variables, 
+   if array size is < 255 we will use Counting/Radix  which  is O(n), only integers. 
+   to understand this lets first understand tradeoff which we have to give in exchage of speed and Stability.
+   Sorting algorithms:
+   MergeSort: Time Complexity -> O(n log n), Space Complexity -> O(n), preserves order. Fast, but extra memory may slow it down.
+   HeapSort: Time Complexity -> O(n log n), Space Complexity -> O(1), change order, Slightly slower than MergeSort.
+
+   now question will be there why HeapSort if stability issue is there? so when i said stability is there it does not mean sorting will change, data will be sorted perfectly, stability problem only matters if the order of duplicates is important in your application. that means it matters if array is having key value pairs then if osrting is based on value then key may get swapped but it will still be sorted.
+
+   after this lets understand what is TimSort which is pretty intresting and will be fun implementing it to find out how python, java uses timsort in their inbuild sorting functions.
+
+   Lets understand sorting more deeply :
+
+   InsertionSort: 
+   Small arrays (≤ 32–50 elements)| All Data types| Stable| Time: O(n²)| Space: O(1)| Very fast for tiny arrays; used inside TimSort for short runs.
+
+   QuickSort: 
+   Medium arrays (50 – ~10k)| All Data types| Not stable| Time: O(n²)| Space: O(log n)| Fastest in practice; in-place; pivot choice avoids worst-case.| Embedded systems often prefer QuickSort for medium to large arrays.
+
+   MergeSort:
+   Large arrays, stability needed| All Data types| Stable| Space: O(n log n)| Space: O(n)| Cache-friendly, predictable, used in external sorting (disk-based).
+
+   HeapSort:
+   Large arrays, low memory (in-place O(1))| All Data types| Not stable| O(n log n)| O(1)| Slower than QuickSort/MergeSort because of cache-unfriendly access.
+
+   CountingSort:
+   Small integer range (0–k), e.g. 0–255| Integers only| Stable| O(n + k)| O(k)| Extremely fast; good for byte/char data.| Used in networking, embedded logs, byte/packet processing.
+
+   RadixSort:
+   Larger integers/strings (multi-digit)| Integers, strings| Stable| O(n·d) (d = digits)| O(n + k)| Uses CountingSort as subroutine; great for large int ranges.| Used in networking, embedded logs, byte/packet processing.
+
+   TimSort:
+   Real-world, mixed data| All types| Stable| O(n log n) worst, O(n) best| O(n)| Hybrid of Insertion + Merge; optimizes for partially sorted data.
+
+   BubbleSort / SelectionSort: No Pratical application. skipping.
+
+
+## Information
+
+
+

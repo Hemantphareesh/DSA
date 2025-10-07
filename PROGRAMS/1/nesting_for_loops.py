@@ -45,6 +45,13 @@ A B
 A 
 '''
 
+def pattern3():
+    array = [1,2,3,8,8,9,0,0,0,9,8,6,5,43,3,2,2,1,1,1,1,1]
+    for i in range(0, len(array)):
+        for j in range(1, len(array)):
+            print(f"j: {array[j]}, j-1: {array[j-1]}")
+
 if __name__ == "__main__":
     pattern1() 
     pattern2()
+    pattern3()
